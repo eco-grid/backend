@@ -12,17 +12,10 @@ def create_app():
 
     cache.init_app(app)
 
-    CORS(app, resources={
-        r"/api/*": {
-            "origins": ["http://localhost:5173"],
-            "methods": ["GET", "POST", "PUT", "DELETE"],
-            "allow_headers": ["Content-Type"]
-        }
-    })
+    CORS(app, resources={r"/*": {"origins": "*"}})
 
-    socketio.init_app(app, cors_allowed_origins=["http://localhost:5173"])
+    socketio.init_app(app, cors_allowed_origins=["*"])
 
-    # Move blueprint registration after socketio initialization
     app.register_blueprint(api_bp, url_prefix='/api')
 
     return app
